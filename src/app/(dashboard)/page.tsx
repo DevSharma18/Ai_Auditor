@@ -1,394 +1,554 @@
 'use client';
 
 import {
-    PieChart,
-    Pie,
-    Cell,
-    ResponsiveContainer,
-    ScatterChart,
-    Scatter,
+    LineChart,
+    Line,
     XAxis,
     YAxis,
-    ZAxis,
     CartesianGrid,
+    Tooltip,
+    ResponsiveContainer,
+    Area,
+    AreaChart,
 } from 'recharts';
 
-const gaugeData = [
-    { name: 'Value', value: 72 },
-    { name: 'Remaining', value: 28 },
+// Sample data for heatmap trends
+const heatmapData = [
+    { date: 'Dec 2023', value: 5 },
+    { date: 'Jan 2024', value: 7 },
+    { date: 'Feb 2024', value: 9 },
+    { date: 'Mar 2024', value: 11 },
+    { date: 'Apr 2024', value: 13 },
+    { date: 'May 2024', value: 18 },
+    { date: 'Jun 2024', value: 8 },
 ];
 
-const COLORS = ['#10b981', '#e5e7eb'];
-
-const riskData = [
-    { x: 25, y: 75, z: 100 },
-    { x: 45, y: 65, z: 100 },
-    { x: 55, y: 45, z: 100 },
-    { x: 65, y: 75, z: 100 },
-    { x: 75, y: 55, z: 100 },
-    { x: 35, y: 35, z: 100 },
-    { x: 25, y: 25, z: 100 },
-    { x: 55, y: 15, z: 100 },
-    { x: 75, y: 15, z: 100 },
-    { x: 85, y: 25, z: 100 },
-    { x: 85, y: 65, z: 100 },
-];
-
-export default function Home() {
+export default function DashboardPage() {
     return (
         <div
             className="min-h-screen"
             style={{
-                background: 'linear-gradient(135deg, #f8fafc 0%, #e0f2fe 50%, #fce7f3 100%)',
-                padding: '48px 60px',
+                background: '#fafafa',
+                padding: '0',
             }}
         >
             {/* Page Header */}
-            <div className="mb-12 animate-[fadeInDown_0.6s_ease-out]">
+            <div className="mb-8">
                 <h1
-                    className="font-extrabold mb-3"
+                    className="font-bold mb-2"
                     style={{
-                        fontSize: '48px',
-                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                        letterSpacing: '-2px',
+                        fontSize: '28px',
+                        color: '#1a1a1a',
                     }}
                 >
-                    Org Status
+                    AI Auditor
                 </h1>
-                <p className="text-gray-600 text-lg">Welcome back! Here's your AI governance overview</p>
             </div>
 
-            {/* Dashboard Grid */}
-            <div className="grid grid-cols-2 gap-8 mb-8">
-                {/* Global Compliance Gauge */}
+            {/* Top Metrics Row */}
+            <div className="grid grid-cols-4 gap-6 mb-10">
+                {/* Global Drift Score */}
                 <div
-                    className="group transition-all duration-300"
+                    className="transition-all duration-200"
                     style={{
-                        background: 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)',
-                        borderRadius: '24px',
-                        padding: '32px',
-                        border: '2px solid #a7f3d0',
-                        boxShadow: '0 10px 40px rgba(16, 185, 129, 0.15), 0 0 0 1px rgba(16, 185, 129, 0.05)',
+                        background: '#ffffff',
+                        borderRadius: '14px',
+                        padding: '28px 24px',
+                        border: '1px solid #e5e7eb',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
                     }}
                     onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-4px)';
-                        e.currentTarget.style.boxShadow = '0 20px 60px rgba(16, 185, 129, 0.25), 0 0 0 1px rgba(16, 185, 129, 0.1)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.12)';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
                     }}
                     onMouseLeave={(e) => {
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
                         e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 10px 40px rgba(16, 185, 129, 0.15), 0 0 0 1px rgba(16, 185, 129, 0.05)';
                     }}
                 >
-                    <div className="flex items-center gap-3 mb-6">
-                        <div
-                            className="p-3 rounded-xl"
-                            style={{
-                                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                                boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)',
-                            }}
-                        >
-                            <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M9 12l2 2 4-4" />
-                                <path d="M20 6L9 17l-5-5" />
-                            </svg>
-                        </div>
-                        <h2 className="text-xl font-bold text-gray-800">
-                            Global Compliance Gauge
-                        </h2>
-                    </div>
-                    <div className="flex flex-col items-center justify-center">
-                        <div className="relative w-full max-w-[300px] h-[180px]">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <PieChart>
-                                    <Pie
-                                        data={gaugeData}
-                                        cx="50%"
-                                        cy="85%"
-                                        startAngle={180}
-                                        endAngle={0}
-                                        innerRadius={80}
-                                        outerRadius={110}
-                                        paddingAngle={0}
-                                        dataKey="value"
-                                    >
-                                        {gaugeData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS[index]} />
-                                        ))}
-                                    </Pie>
-                                </PieChart>
-                            </ResponsiveContainer>
-                            <div className="absolute inset-0 flex items-center justify-center pt-8">
-                                <span
-                                    className="font-black"
-                                    style={{
-                                        fontSize: '56px',
-                                        background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                                        WebkitBackgroundClip: 'text',
-                                        WebkitTextFillColor: 'transparent',
-                                        backgroundClip: 'text',
-                                    }}
-                                >
-                                    72%
-                                </span>
-                            </div>
-                        </div>
-                        <div className="flex justify-between w-full max-w-[300px] mt-2 px-5">
-                            <span className="text-sm text-gray-500 font-semibold">0</span>
-                            <span className="text-sm text-gray-500 font-semibold">100</span>
-                        </div>
-                    </div>
+                    <div className="text-sm text-gray-600 mb-3" style={{ fontWeight: '500' }}>Global Drift Score</div>
+                    <div className="text-4xl font-bold text-gray-900" style={{ lineHeight: '1' }}>12%</div>
                 </div>
 
-                {/* Risk Matrix */}
+                {/* Global Bias Score */}
                 <div
-                    className="group transition-all duration-300"
+                    className="transition-all duration-200"
                     style={{
-                        background: 'linear-gradient(135deg, #ffffff 0%, #fef3c7 100%)',
-                        borderRadius: '24px',
-                        padding: '32px',
-                        border: '2px solid #fde68a',
-                        boxShadow: '0 10px 40px rgba(251, 191, 36, 0.15), 0 0 0 1px rgba(251, 191, 36, 0.05)',
+                        background: '#ffffff',
+                        borderRadius: '14px',
+                        padding: '28px 24px',
+                        border: '1px solid #e5e7eb',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
                     }}
                     onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-4px)';
-                        e.currentTarget.style.boxShadow = '0 20px 60px rgba(251, 191, 36, 0.25), 0 0 0 1px rgba(251, 191, 36, 0.1)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.12)';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
                     }}
                     onMouseLeave={(e) => {
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
                         e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 10px 40px rgba(251, 191, 36, 0.15), 0 0 0 1px rgba(251, 191, 36, 0.05)';
                     }}
                 >
-                    <div className="flex items-center gap-3 mb-6">
-                        <div
-                            className="p-3 rounded-xl"
-                            style={{
-                                background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-                                boxShadow: '0 4px 12px rgba(245, 158, 11, 0.3)',
-                            }}
-                        >
-                            <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                                <path d="M2 17l10 5 10-5" />
-                                <path d="M2 12l10 5 10-5" />
-                            </svg>
-                        </div>
-                        <h2 className="text-xl font-bold text-gray-800">Risk Matrix</h2>
-                    </div>
-                    <div className="flex flex-col items-center justify-center">
-                        <ResponsiveContainer width={250} height={250}>
-                            <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#fde68a" />
-                                <XAxis
-                                    type="number"
-                                    dataKey="x"
-                                    domain={[0, 100]}
-                                    name="Impact"
-                                    tick={{ fill: '#92400e', fontSize: 12, fontWeight: 600 }}
-                                />
-                                <YAxis
-                                    type="number"
-                                    dataKey="y"
-                                    domain={[0, 100]}
-                                    name="Likelihood"
-                                    tick={{ fill: '#92400e', fontSize: 12, fontWeight: 600 }}
-                                />
-                                <ZAxis type="number" dataKey="z" range={[60, 60]} />
-                                <Scatter data={riskData} fill="#f59e0b" />
-                            </ScatterChart>
-                        </ResponsiveContainer>
-                        <div className="text-center mt-2">
-                            <span className="text-sm text-amber-700 font-semibold">Impact</span>
-                        </div>
-                    </div>
+                    <div className="text-sm text-gray-600 mb-3" style={{ fontWeight: '500' }}>Global Bias Score</div>
+                    <div className="text-4xl font-bold text-gray-900" style={{ lineHeight: '1' }}>8%</div>
+                </div>
+
+                {/* Safety Violations */}
+                <div
+                    className="transition-all duration-200"
+                    style={{
+                        background: '#ffffff',
+                        borderRadius: '14px',
+                        padding: '28px 24px',
+                        border: '1px solid #e5e7eb',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.12)';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                    }}
+                >
+                    <div className="text-sm text-gray-600 mb-3" style={{ fontWeight: '500' }}>Safety Violations</div>
+                    <div className="text-4xl font-bold text-gray-900" style={{ lineHeight: '1' }}>15</div>
+                </div>
+
+                {/* PII Leaks */}
+                <div
+                    className="transition-all duration-200"
+                    style={{
+                        background: '#ffffff',
+                        borderRadius: '14px',
+                        padding: '28px 24px',
+                        border: '1px solid #e5e7eb',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.12)';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                    }}
+                >
+                    <div className="text-sm text-gray-600 mb-3" style={{ fontWeight: '500' }}>PII Leaks</div>
+                    <div className="text-4xl font-bold text-gray-900" style={{ lineHeight: '1' }}>3</div>
                 </div>
             </div>
 
-            {/* KPI Row */}
-            <div className="grid grid-cols-3 gap-6 mb-8">
-                <div
-                    className="group transition-all duration-300"
-                    style={{
-                        background: 'linear-gradient(135deg, #ffffff 0%, #dbeafe 100%)',
-                        borderRadius: '20px',
-                        padding: '32px',
-                        textAlign: 'center',
-                        border: '2px solid #bfdbfe',
-                        boxShadow: '0 8px 32px rgba(59, 130, 246, 0.15)',
-                    }}
-                    onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-4px) scale(1.02)';
-                        e.currentTarget.style.boxShadow = '0 12px 48px rgba(59, 130, 246, 0.25)';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                        e.currentTarget.style.boxShadow = '0 8px 32px rgba(59, 130, 246, 0.15)';
-                    }}
-                >
-                    <div
-                        className="font-black mb-3 leading-none"
-                        style={{
-                            fontSize: '64px',
-                            background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text',
-                        }}
-                    >
-                        120
-                    </div>
-                    <div className="text-base text-blue-700 font-bold uppercase tracking-wide">Controls</div>
-                </div>
-
-                <div
-                    className="group transition-all duration-300"
-                    style={{
-                        background: 'linear-gradient(135deg, #ffffff 0%, #fce7f3 100%)',
-                        borderRadius: '20px',
-                        padding: '32px',
-                        textAlign: 'center',
-                        border: '2px solid #fbcfe8',
-                        boxShadow: '0 8px 32px rgba(236, 72, 153, 0.15)',
-                    }}
-                    onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-4px) scale(1.02)';
-                        e.currentTarget.style.boxShadow = '0 12px 48px rgba(236, 72, 153, 0.25)';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                        e.currentTarget.style.boxShadow = '0 8px 32px rgba(236, 72, 153, 0.15)';
-                    }}
-                >
-                    <div
-                        className="font-black mb-3 leading-none"
-                        style={{
-                            fontSize: '64px',
-                            background: 'linear-gradient(135deg, #ec4899 0%, #db2777 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text',
-                        }}
-                    >
-                        8
-                    </div>
-                    <div className="text-base text-pink-700 font-bold uppercase tracking-wide">Issues</div>
-                </div>
-
-                <div
-                    className="group transition-all duration-300"
-                    style={{
-                        background: 'linear-gradient(135deg, #ffffff 0%, #e9d5ff 100%)',
-                        borderRadius: '20px',
-                        padding: '32px',
-                        textAlign: 'center',
-                        border: '2px solid #d8b4fe',
-                        boxShadow: '0 8px 32px rgba(168, 85, 247, 0.15)',
-                    }}
-                    onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-4px) scale(1.02)';
-                        e.currentTarget.style.boxShadow = '0 12px 48px rgba(168, 85, 247, 0.25)';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                        e.currentTarget.style.boxShadow = '0 8px 32px rgba(168, 85, 247, 0.15)';
-                    }}
-                >
-                    <div
-                        className="font-black mb-3 leading-none"
-                        style={{
-                            fontSize: '64px',
-                            background: 'linear-gradient(135deg, #a855f7 0%, #9333ea 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text',
-                        }}
-                    >
-                        24
-                    </div>
-                    <div className="text-base text-purple-700 font-bold uppercase tracking-wide">Audits</div>
-                </div>
-            </div>
-
-            {/* Recent Activity */}
+            {/* Severity Distribution */}
             <div
-                className="group transition-all duration-300"
+                className="mb-10"
                 style={{
-                    background: 'linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%)',
-                    borderRadius: '24px',
-                    padding: '40px',
-                    border: '2px solid #e5e7eb',
-                    boxShadow: '0 10px 40px rgba(0, 0, 0, 0.08)',
-                }}
-                onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.12)';
-                }}
-                onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 10px 40px rgba(0, 0, 0, 0.08)';
+                    background: '#ffffff',
+                    borderRadius: '14px',
+                    padding: '28px',
+                    border: '1px solid #e5e7eb',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
                 }}
             >
-                <div className="flex items-center gap-3 mb-8">
-                    <div
-                        className="p-3 rounded-xl"
-                        style={{
-                            background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
-                            boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)',
-                        }}
-                    >
-                        <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-                        </svg>
-                    </div>
-                    <h2 className="text-2xl font-bold text-gray-800">Recent Activity</h2>
+                <h3 className="text-xl font-bold text-gray-900 mb-6">Severity Distribution</h3>
+
+                {/* Horizontal Stacked Bar */}
+                <div
+                    className="relative mb-5"
+                    style={{
+                        height: '48px',
+                        borderRadius: '8px',
+                        overflow: 'hidden',
+                        display: 'flex',
+                    }}
+                >
+                    <div style={{ flex: '1', background: '#e74c3c' }}></div>
+                    <div style={{ flex: '1', background: '#ff9800' }}></div>
+                    <div style={{ flex: '1', background: '#ffd54f' }}></div>
+                    <div style={{ flex: '1', background: '#81c784' }}></div>
+                    <div style={{ flex: '1', background: '#42a5f5' }}></div>
                 </div>
-                <ul className="space-y-0">
-                    {[
-                        { text: 'Compliance report generated', time: '2h ago', color: '#10b981' },
-                        { text: 'Model updated', time: '5h ago', color: '#3b82f6' },
-                        { text: 'Update completed', time: 'Mar 23', color: '#8b5cf6' },
-                        { text: 'Audit update', time: 'Mar 23', color: '#ec4899' },
-                    ].map((item, index) => (
-                        <li
-                            key={index}
-                            className="flex justify-between items-center group/item transition-all duration-200"
+
+                {/* Legend */}
+                <div className="flex justify-center gap-6 flex-wrap">
+                    <div className="flex items-center gap-2">
+                        <div style={{ width: '12px', height: '12px', background: '#e74c3c', borderRadius: '2px' }}></div>
+                        <span className="text-sm text-gray-700 font-medium">Critical</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <div style={{ width: '12px', height: '12px', background: '#ff9800', borderRadius: '2px' }}></div>
+                        <span className="text-sm text-gray-700 font-medium">High</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <div style={{ width: '12px', height: '12px', background: '#ffd54f', borderRadius: '2px' }}></div>
+                        <span className="text-sm text-gray-700 font-medium">Medium</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <div style={{ width: '12px', height: '12px', background: '#81c784', borderRadius: '2px' }}></div>
+                        <span className="text-sm text-gray-700 font-medium">Low</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <div style={{ width: '12px', height: '12px', background: '#42a5f5', borderRadius: '2px' }}></div>
+                        <span className="text-sm text-gray-700 font-medium">Info</span>
+                    </div>
+                </div>
+            </div>
+
+            {/* Charts Row */}
+            <div className="grid grid-cols-2 gap-6">
+                {/* Heatmap Trends */}
+                <div
+                    style={{
+                        background: '#ffffff',
+                        borderRadius: '14px',
+                        padding: '28px',
+                        border: '1px solid #e5e7eb',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+                    }}
+                >
+                    <h3 className="text-xl font-bold text-gray-900 mb-5">Heatmap Trends</h3>
+
+                    <ResponsiveContainer width="100%" height={280}>
+                        <AreaChart data={heatmapData}>
+                            <defs>
+                                <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor="#ff6b6b" stopOpacity={0.3} />
+                                    <stop offset="95%" stopColor="#ff6b6b" stopOpacity={0} />
+                                </linearGradient>
+                            </defs>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+                            <XAxis
+                                dataKey="date"
+                                tick={{ fill: '#666666', fontSize: 12 }}
+                                stroke="#e0e0e0"
+                            />
+                            <YAxis
+                                domain={[0, 20]}
+                                tick={{ fill: '#666666', fontSize: 12 }}
+                                stroke="#e0e0e0"
+                            />
+                            <Tooltip
+                                contentStyle={{
+                                    background: '#ffffff',
+                                    border: '1px solid #e5e7eb',
+                                    borderRadius: '8px',
+                                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+                                }}
+                            />
+                            <Area
+                                type="monotone"
+                                dataKey="value"
+                                stroke="#ff6b6b"
+                                strokeWidth={3}
+                                fill="url(#colorValue)"
+                            />
+                        </AreaChart>
+                    </ResponsiveContainer>
+                </div>
+
+                {/* Recent Incidents */}
+                <div
+                    style={{
+                        background: '#ffffff',
+                        borderRadius: '14px',
+                        padding: '28px',
+                        border: '1px solid #e5e7eb',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+                    }}
+                >
+                    <h3 className="text-xl font-bold text-gray-900 mb-6">Recent Incidents</h3>
+
+                    <div className="space-y-3">
+                        {/* Incident 1 - Critical */}
+                        <div
+                            className="group transition-all duration-200"
                             style={{
-                                padding: '20px 24px',
-                                borderBottom: index < 3 ? '2px solid #f3f4f6' : 'none',
+                                padding: '16px',
                                 borderRadius: '12px',
+                                background: 'linear-gradient(135deg, #fff5f5 0%, #ffffff 100%)',
+                                border: '1px solid #fee2e2',
+                                cursor: 'pointer',
                             }}
                             onMouseEnter={(e) => {
-                                e.currentTarget.style.background = 'linear-gradient(135deg, #fafafa 0%, #f9fafb 100%)';
-                                e.currentTarget.style.transform = 'translateX(8px)';
+                                e.currentTarget.style.boxShadow = '0 4px 12px rgba(239, 68, 68, 0.15)';
+                                e.currentTarget.style.transform = 'translateY(-2px)';
+                                e.currentTarget.style.borderColor = '#fecaca';
                             }}
                             onMouseLeave={(e) => {
-                                e.currentTarget.style.background = 'transparent';
-                                e.currentTarget.style.transform = 'translateX(0)';
+                                e.currentTarget.style.boxShadow = 'none';
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.borderColor = '#fee2e2';
                             }}
                         >
-                            <div className="flex items-center gap-4">
-                                <span
-                                    className="font-black text-2xl leading-none"
-                                    style={{ color: item.color }}
+                            <div className="flex items-start gap-3">
+                                {/* Icon */}
+                                <div
+                                    style={{
+                                        width: '40px',
+                                        height: '40px',
+                                        borderRadius: '10px',
+                                        background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexShrink: 0,
+                                        boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)',
+                                    }}
                                 >
-                                    •
-                                </span>
-                                <span className="text-base text-gray-700 font-medium">{item.text}</span>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                                        <line x1="12" y1="9" x2="12" y2="13" />
+                                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                                    </svg>
+                                </div>
+
+                                {/* Content */}
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <span className="font-semibold text-gray-900" style={{ fontSize: '15px' }}>
+                                            PII Leak in Model A
+                                        </span>
+                                        <span
+                                            className="px-2 py-0.5 rounded text-xs font-bold"
+                                            style={{
+                                                background: '#dc2626',
+                                                color: 'white',
+                                            }}
+                                        >
+                                            CRITICAL
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-sm text-gray-600">
+                                        <span className="flex items-center gap-1">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <circle cx="12" cy="12" r="10" />
+                                                <polyline points="12 6 12 12 16 14" />
+                                            </svg>
+                                            3 months ago
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                            <span
-                                className="text-sm font-semibold px-3 py-1 rounded-full"
-                                style={{
-                                    background: `${item.color}15`,
-                                    color: item.color,
-                                }}
-                            >
-                                {item.time}
-                            </span>
-                        </li>
-                    ))}
-                </ul>
+                        </div>
+
+                        {/* Incident 2 - High */}
+                        <div
+                            className="group transition-all duration-200"
+                            style={{
+                                padding: '16px',
+                                borderRadius: '12px',
+                                background: 'linear-gradient(135deg, #fff7ed 0%, #ffffff 100%)',
+                                border: '1px solid #fed7aa',
+                                cursor: 'pointer',
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.boxShadow = '0 4px 12px rgba(249, 115, 22, 0.15)';
+                                e.currentTarget.style.transform = 'translateY(-2px)';
+                                e.currentTarget.style.borderColor = '#fdba74';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.boxShadow = 'none';
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.borderColor = '#fed7aa';
+                            }}
+                        >
+                            <div className="flex items-start gap-3">
+                                {/* Icon */}
+                                <div
+                                    style={{
+                                        width: '40px',
+                                        height: '40px',
+                                        borderRadius: '10px',
+                                        background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexShrink: 0,
+                                        boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
+                                    }}
+                                >
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                                        <line x1="12" y1="9" x2="12" y2="13" />
+                                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                                    </svg>
+                                </div>
+
+                                {/* Content */}
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <span className="font-semibold text-gray-900" style={{ fontSize: '15px' }}>
+                                            Safety Violation in Model B
+                                        </span>
+                                        <span
+                                            className="px-2 py-0.5 rounded text-xs font-bold"
+                                            style={{
+                                                background: '#ea580c',
+                                                color: 'white',
+                                            }}
+                                        >
+                                            HIGH
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-sm text-gray-600">
+                                        <span className="flex items-center gap-1">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <circle cx="12" cy="12" r="10" />
+                                                <polyline points="12 6 12 12 16 14" />
+                                            </svg>
+                                            12 months ago
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Incident 3 - High */}
+                        <div
+                            className="group transition-all duration-200"
+                            style={{
+                                padding: '16px',
+                                borderRadius: '12px',
+                                background: 'linear-gradient(135deg, #fff7ed 0%, #ffffff 100%)',
+                                border: '1px solid #fed7aa',
+                                cursor: 'pointer',
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.boxShadow = '0 4px 12px rgba(249, 115, 22, 0.15)';
+                                e.currentTarget.style.transform = 'translateY(-2px)';
+                                e.currentTarget.style.borderColor = '#fdba74';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.boxShadow = 'none';
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.borderColor = '#fed7aa';
+                            }}
+                        >
+                            <div className="flex items-start gap-3">
+                                {/* Icon */}
+                                <div
+                                    style={{
+                                        width: '40px',
+                                        height: '40px',
+                                        borderRadius: '10px',
+                                        background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexShrink: 0,
+                                        boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
+                                    }}
+                                >
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                                        <line x1="12" y1="9" x2="12" y2="13" />
+                                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                                    </svg>
+                                </div>
+
+                                {/* Content */}
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <span className="font-semibold text-gray-900" style={{ fontSize: '15px' }}>
+                                            Safety Violation in Model C
+                                        </span>
+                                        <span
+                                            className="px-2 py-0.5 rounded text-xs font-bold"
+                                            style={{
+                                                background: '#ea580c',
+                                                color: 'white',
+                                            }}
+                                        >
+                                            HIGH
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-sm text-gray-600">
+                                        <span className="flex items-center gap-1">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <circle cx="12" cy="12" r="10" />
+                                                <polyline points="12 6 12 12 16 14" />
+                                            </svg>
+                                            16 days ago
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Incident 4 - Info */}
+                        <div
+                            className="group transition-all duration-200"
+                            style={{
+                                padding: '16px',
+                                borderRadius: '12px',
+                                background: 'linear-gradient(135deg, #eff6ff 0%, #ffffff 100%)',
+                                border: '1px solid #bfdbfe',
+                                cursor: 'pointer',
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.15)';
+                                e.currentTarget.style.transform = 'translateY(-2px)';
+                                e.currentTarget.style.borderColor = '#93c5fd';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.boxShadow = 'none';
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.borderColor = '#bfdbfe';
+                            }}
+                        >
+                            <div className="flex items-start gap-3">
+                                {/* Icon */}
+                                <div
+                                    style={{
+                                        width: '40px',
+                                        height: '40px',
+                                        borderRadius: '10px',
+                                        background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexShrink: 0,
+                                        boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
+                                    }}
+                                >
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <line x1="12" y1="16" x2="12" y2="12" />
+                                        <line x1="12" y1="8" x2="12.01" y2="8" />
+                                    </svg>
+                                </div>
+
+                                {/* Content */}
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <span className="font-semibold text-gray-900" style={{ fontSize: '15px' }}>
+                                            Audit in Model C
+                                        </span>
+                                        <span
+                                            className="px-2 py-0.5 rounded text-xs font-bold"
+                                            style={{
+                                                background: '#2563eb',
+                                                color: 'white',
+                                            }}
+                                        >
+                                            INFO
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-sm text-gray-600">
+                                        <span className="flex items-center gap-1">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <circle cx="12" cy="12" r="10" />
+                                                <polyline points="12 6 12 12 16 14" />
+                                            </svg>
+                                            3 days ago
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -1,13 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 
 const navItems = [
     {
-        name: 'Models',
-        href: '/models',
+        name: 'Dashboard',
+        href: '/',
         icon: (
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <rect x="3" y="3" width="7" height="7" />
@@ -18,7 +17,27 @@ const navItems = [
         ),
     },
     {
-        name: 'Reports',
+        name: 'Models',
+        href: '/models',
+        icon: (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z" />
+            </svg>
+        ),
+    },
+    {
+        name: 'Incidents',
+        href: '/incidents',
+        icon: (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+        ),
+    },
+    {
+        name: 'Audits',
         href: '/reports',
         icon: (
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -31,12 +50,12 @@ const navItems = [
         ),
     },
     {
-        name: 'Inspector',
-        href: '/inspector',
+        name: 'Settings',
+        href: '/settings',
         icon: (
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10" />
-                <polyline points="12 6 12 12 16 14" />
+                <circle cx="12" cy="12" r="3" />
+                <path d="M12 1v6m0 6v6M5.64 5.64l4.24 4.24m4.24 4.24l4.24 4.24M1 12h6m6 0h6M5.64 18.36l4.24-4.24m4.24-4.24l4.24-4.24" />
             </svg>
         ),
     },
@@ -54,171 +73,84 @@ export default function Sidebar() {
 
     return (
         <aside
-            className="relative flex flex-col overflow-hidden"
+            className="relative flex flex-col"
             style={{
-                width: '280px',
+                width: '220px',
                 minHeight: '100vh',
-                background: 'linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-                boxShadow: '4px 0 24px rgba(0, 0, 0, 0.12), inset -1px 0 0 rgba(255, 255, 255, 0.05)',
+                background: '#f5f5f5',
+                borderRight: '1px solid #e5e7eb',
             }}
         >
-            {/* Animated background effects */}
-            <div
-                className="absolute inset-0 opacity-30"
-                style={{
-                    background: 'radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%)',
-                    pointerEvents: 'none',
-                }}
-            />
-
-            {/* Subtle animated gradient overlay */}
-            <div
-                className="absolute inset-0 opacity-20"
-                style={{
-                    background: 'linear-gradient(45deg, transparent 30%, rgba(102, 126, 234, 0.1) 50%, transparent 70%)',
-                    backgroundSize: '200% 200%',
-                    animation: 'gradientShift 8s ease infinite',
-                    pointerEvents: 'none',
-                }}
-            />
-
             {/* Logo Section */}
             <Link
                 href="/"
                 className="relative group no-underline"
                 style={{
-                    margin: '32px 24px 40px',
-                    padding: '20px',
-                    background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
-                    borderRadius: '16px',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    backdropFilter: 'blur(10px)',
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+                    margin: '24px 16px 32px',
+                    padding: '16px',
+                    background: '#ffffff',
+                    borderRadius: '12px',
+                    border: '1px solid #e5e7eb',
+                    transition: 'all 0.2s ease',
                 }}
                 onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(102, 126, 234, 0.2)';
-                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
                 }}
                 onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
-                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                    e.currentTarget.style.boxShadow = 'none';
                 }}
             >
-                <div className="flex items-center gap-4">
-                    <div
-                        className="relative overflow-hidden"
+                <div className="flex flex-col">
+                    <span
+                        className="font-bold"
                         style={{
-                            width: '48px',
-                            height: '48px',
-                            borderRadius: '12px',
-                            background: 'white',
-                            padding: '2px',
-                            boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
+                            fontSize: '18px',
+                            color: '#1a1a1a',
                         }}
                     >
-                        <Image
-                            src="/logo.png"
-                            alt="AI Auditor"
-                            width={48}
-                            height={48}
-                            className="rounded-xl object-contain"
-                        />
-                    </div>
-                    <div className="flex flex-col">
-                        <span
-                            className="font-bold tracking-wide"
-                            style={{
-                                fontSize: '20px',
-                                background: 'linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%)',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
-                                backgroundClip: 'text',
-                            }}
-                        >
-                            AI Auditor
-                        </span>
-                        <span className="text-xs text-gray-400 font-medium">Enterprise Suite</span>
-                    </div>
+                        AI Auditor
+                    </span>
+                    <span className="text-xs font-medium" style={{ color: '#888888' }}>Enterprise Suite</span>
                 </div>
             </Link>
 
             {/* Navigation Menu */}
-            <nav className="flex-1 px-4 space-y-2">
+            <nav className="flex-1 px-3 space-y-1">
                 {navItems.map((item) => {
                     const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
                     return (
                         <Link
                             key={item.name}
                             href={item.href}
-                            className="group relative flex items-center gap-3 no-underline transition-all duration-300"
+                            className="group relative flex items-center gap-3 no-underline transition-all duration-200"
                             style={{
-                                padding: '14px 16px',
-                                borderRadius: '12px',
-                                color: isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.7)',
-                                background: isActive
-                                    ? 'linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 100%)'
-                                    : 'transparent',
-                                border: isActive
-                                    ? '1px solid rgba(102, 126, 234, 0.3)'
-                                    : '1px solid transparent',
-                                boxShadow: isActive
-                                    ? '0 4px 12px rgba(102, 126, 234, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
-                                    : 'none',
+                                padding: '12px 16px',
+                                borderRadius: '8px',
+                                color: isActive ? '#333333' : '#666666',
+                                background: isActive ? '#ffffff' : 'transparent',
+                                border: isActive ? '1px solid #e5e7eb' : '1px solid transparent',
+                                boxShadow: isActive ? '0 2px 8px rgba(0, 0, 0, 0.08)' : 'none',
                             }}
                             onMouseEnter={(e) => {
                                 if (!isActive) {
-                                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                                    e.currentTarget.style.transform = 'translateX(4px)';
-                                    e.currentTarget.style.color = '#ffffff';
+                                    e.currentTarget.style.background = '#fafafa';
+                                    e.currentTarget.style.color = '#333333';
                                 }
                             }}
                             onMouseLeave={(e) => {
                                 if (!isActive) {
                                     e.currentTarget.style.background = 'transparent';
-                                    e.currentTarget.style.borderColor = 'transparent';
-                                    e.currentTarget.style.transform = 'translateX(0)';
-                                    e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)';
+                                    e.currentTarget.style.color = '#666666';
                                 }
                             }}
                         >
-                            {/* Active indicator */}
-                            {isActive && (
-                                <div
-                                    className="absolute left-0 top-1/2 -translate-y-1/2"
-                                    style={{
-                                        width: '4px',
-                                        height: '24px',
-                                        background: 'linear-gradient(180deg, #667eea 0%, #764ba2 100%)',
-                                        borderRadius: '0 4px 4px 0',
-                                        boxShadow: '0 0 8px rgba(102, 126, 234, 0.5)',
-                                    }}
-                                />
-                            )}
-
                             {/* Icon */}
-                            <div
-                                className="relative w-5 h-5 transition-transform duration-300 group-hover:scale-110"
-                                style={{
-                                    filter: isActive ? 'drop-shadow(0 0 4px rgba(102, 126, 234, 0.5))' : 'none',
-                                }}
-                            >
+                            <div className="relative w-5 h-5">
                                 {item.icon}
                             </div>
 
                             {/* Text */}
-                            <span className="font-medium text-[15px]">{item.name}</span>
-
-                            {/* Hover glow effect */}
-                            <div
-                                className="absolute inset-0 rounded-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                                style={{
-                                    background: 'radial-gradient(circle at center, rgba(102, 126, 234, 0.1) 0%, transparent 70%)',
-                                }}
-                            />
+                            <span className="font-medium text-sm">{item.name}</span>
                         </Link>
                     );
                 })}
@@ -228,38 +160,33 @@ export default function Sidebar() {
             <div
                 className="relative"
                 style={{
-                    margin: '24px',
-                    padding: '20px 0 0',
-                    borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                    margin: '16px',
+                    padding: '16px 0 0',
+                    borderTop: '1px solid #e5e7eb',
                 }}
             >
                 <button
                     onClick={handleLogout}
-                    className="group w-full flex items-center gap-3 transition-all duration-300"
+                    className="group w-full flex items-center gap-3 transition-all duration-200"
                     style={{
-                        padding: '14px 16px',
-                        background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%)',
-                        border: '1px solid rgba(239, 68, 68, 0.2)',
-                        borderRadius: '12px',
-                        color: '#fca5a5',
-                        fontSize: '15px',
+                        padding: '12px 16px',
+                        background: '#ffffff',
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '8px',
+                        color: '#666666',
+                        fontSize: '14px',
                         fontWeight: '500',
                         cursor: 'pointer',
-                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
                     }}
                     onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%)';
-                        e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.4)';
-                        e.currentTarget.style.transform = 'translateY(-2px)';
-                        e.currentTarget.style.boxShadow = '0 4px 16px rgba(239, 68, 68, 0.2)';
-                        e.currentTarget.style.color = '#ffffff';
+                        e.currentTarget.style.background = '#fef2f2';
+                        e.currentTarget.style.borderColor = '#fca5a5';
+                        e.currentTarget.style.color = '#dc2626';
                     }}
                     onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%)';
-                        e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.2)';
-                        e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
-                        e.currentTarget.style.color = '#fca5a5';
+                        e.currentTarget.style.background = '#ffffff';
+                        e.currentTarget.style.borderColor = '#e5e7eb';
+                        e.currentTarget.style.color = '#666666';
                     }}
                 >
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -270,17 +197,6 @@ export default function Sidebar() {
                     <span>Logout</span>
                 </button>
             </div>
-
-            <style jsx global>{`
-                @keyframes gradientShift {
-                    0%, 100% {
-                        background-position: 0% 50%;
-                    }
-                    50% {
-                        background-position: 100% 50%;
-                    }
-                }
-            `}</style>
         </aside>
     );
 }

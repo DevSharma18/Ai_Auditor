@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
@@ -51,20 +50,6 @@ export default function LoginPage() {
             >
                 {/* Header */}
                 <div className="text-center mb-8">
-                    <Image
-                        src="/logo.png"
-                        alt="AI Auditor"
-                        width={80}
-                        height={80}
-                        className="mb-4"
-                        style={{
-                            margin: '0 auto 16px',
-                            borderRadius: '16px',
-                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-                            display: 'block'
-                        }}
-                        priority
-                    />
                     <h1
                         className="m-0 mb-2"
                         style={{
