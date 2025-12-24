@@ -7,18 +7,18 @@ export default function InspectorPage() {
     const [selectedModel, setSelectedModel] = useState('customer_service');
 
     const tabs = [
-        { id: 'drift', name: 'Drift Analysis', icon: '📊' },
-        { id: 'bias', name: 'Bias & Fairness', icon: '⚖️' },
-        { id: 'redteam', name: 'Red Team Results', icon: '🛡️' },
-        { id: 'traceability', name: 'Traceability', icon: '📋' },
-        { id: 'compliance', name: 'Compliance', icon: '✅' },
+        { id: 'drift', name: 'Drift Analysis' },
+        { id: 'bias', name: 'Bias & Fairness' },
+        { id: 'redteam', name: 'Red Team Results' },
+        { id: 'traceability', name: 'Traceability' },
+        { id: 'compliance', name: 'Compliance' },
     ];
 
     return (
         <div
             className="min-h-screen"
             style={{
-                background: 'linear-gradient(135deg, #f8fafc 0%, #e0f2fe 50%, #fce7f3 100%)',
+                background: '#f8fafc',
                 padding: '48px 60px',
             }}
         >
@@ -29,10 +29,7 @@ export default function InspectorPage() {
                         className="font-extrabold mb-2"
                         style={{
                             fontSize: '48px',
-                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text',
+                            color: '#4f46e5',
                             letterSpacing: '-2px',
                         }}
                     >
@@ -106,7 +103,7 @@ export default function InspectorPage() {
                             borderRadius: '12px',
                             border: 'none',
                             background: activeTab === tab.id
-                                ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                                ? '#4f46e5'
                                 : 'transparent',
                             color: activeTab === tab.id ? 'white' : '#6b7280',
                             fontSize: '15px',
@@ -117,7 +114,7 @@ export default function InspectorPage() {
                             justifyContent: 'center',
                             gap: '8px',
                             boxShadow: activeTab === tab.id
-                                ? '0 4px 12px rgba(102, 126, 234, 0.3)'
+                                ? '0 4px 12px rgba(79, 70, 229, 0.3)'
                                 : 'none',
                             whiteSpace: 'nowrap',
                         }}
@@ -134,7 +131,6 @@ export default function InspectorPage() {
                             }
                         }}
                     >
-                        <span className="text-xl">{tab.icon}</span>
                         <span>{tab.name}</span>
                     </button>
                 ))}
@@ -177,7 +173,7 @@ function DriftAnalysisTab() {
                 <h3 className="text-xl font-bold text-gray-800 mb-2">Distribution Comparison</h3>
                 <p className="text-sm text-gray-500 mb-6">Training Data vs. Production Data</p>
 
-                <div className="h-64 flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl">
+                <div className="h-64 flex items-center justify-center bg-blue-50 rounded-xl">
                     <p className="text-gray-400">Chart visualization placeholder</p>
                 </div>
 
@@ -216,7 +212,7 @@ function DriftAnalysisTab() {
                                 padding: '16px 20px',
                                 borderRadius: '12px',
                                 border: '2px solid #f3f4f6',
-                                background: 'linear-gradient(135deg, #ffffff 0%, #f9fafb 100%)',
+                                background: '#ffffff',
                             }}
                             onMouseEnter={(e) => {
                                 e.currentTarget.style.borderColor = feature.color + '40';
@@ -277,7 +273,7 @@ function BiasFairnessTab() {
                 <h3 className="text-xl font-bold text-gray-800 mb-2">Acceptance Rate by Group</h3>
                 <p className="text-sm text-gray-500 mb-6">Comparing outcomes across demographic groups</p>
 
-                <div className="h-80 flex items-center justify-center bg-gradient-to-br from-green-50 to-teal-50 rounded-xl">
+                <div className="h-80 flex items-center justify-center bg-green-50 rounded-xl">
                     <p className="text-gray-400">Chart visualization placeholder</p>
                 </div>
             </div>
@@ -305,7 +301,7 @@ function BiasFairnessTab() {
                                 padding: '20px',
                                 borderRadius: '12px',
                                 border: `2px solid ${item.color}20`,
-                                background: `linear-gradient(135deg, #ffffff 0%, ${item.color}05 100%)`,
+                                background: '#ffffff',
                             }}
                             onMouseEnter={(e) => {
                                 e.currentTarget.style.borderColor = item.color + '60';
@@ -372,7 +368,7 @@ function RedTeamTab() {
                             padding: '20px',
                             borderRadius: '16px',
                             border: `2px solid ${log.color}30`,
-                            background: `linear-gradient(135deg, #ffffff 0%, ${log.color}08 100%)`,
+                            background: '#ffffff',
                         }}
                     >
                         <div className="flex justify-between items-center mb-3">
@@ -496,8 +492,8 @@ function ComplianceTab() {
     ];
 
     const violations = [
-        { severity: 'CRITICAL', icon: '⚠️', color: '#ef4444', title: 'PHI Exposure Risk (HIPAA)', description: 'Model may inadvertently reveal Protected Health Information in responses when processing medical queries.', recommendation: 'Implement PII/PHI redaction layer before model output. Add content filter for medical record numbers, SSNs, and patient identifiers.', tests: '12 of 28 HIPAA privacy tests' },
-        { severity: 'HIGH', icon: '⚠️', color: '#f59e0b', title: 'Payment Data Leakage (PCI DSS)', description: 'Model outputs contained partial credit card numbers (6 digits) in test scenarios.', recommendation: 'Add regex-based post-processing to mask all numeric sequences matching card patterns. Implement strict input sanitization.', tests: '8 of 22 PCI DSS data protection tests' },
+        { severity: 'CRITICAL', color: '#ef4444', title: 'PHI Exposure Risk (HIPAA)', description: 'Model may inadvertently reveal Protected Health Information in responses when processing medical queries.', recommendation: 'Implement PII/PHI redaction layer before model output. Add content filter for medical record numbers, SSNs, and patient identifiers.', tests: '12 of 28 HIPAA privacy tests' },
+        { severity: 'HIGH', color: '#f59e0b', title: 'Payment Data Leakage (PCI DSS)', description: 'Model outputs contained partial credit card numbers (6 digits) in test scenarios.', recommendation: 'Add regex-based post-processing to mask all numeric sequences matching card patterns. Implement strict input sanitization.', tests: '8 of 22 PCI DSS data protection tests' },
     ];
 
     return (
@@ -506,7 +502,7 @@ function ComplianceTab() {
             <div
                 className="transition-all duration-300"
                 style={{
-                    background: 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)',
+                    background: '#ffffff',
                     borderRadius: '20px',
                     padding: '40px',
                     border: '2px solid #a7f3d0',
@@ -579,7 +575,7 @@ function ComplianceTab() {
                                     padding: '16px',
                                     borderRadius: '12px',
                                     border: `2px solid ${framework.color}20`,
-                                    background: `linear-gradient(135deg, #ffffff 0%, ${framework.color}05 100%)`,
+                                    background: '#ffffff',
                                 }}
                                 onMouseEnter={(e) => {
                                     e.currentTarget.style.borderColor = framework.color + '40';
@@ -636,11 +632,11 @@ function ComplianceTab() {
                                     padding: '20px',
                                     borderRadius: '12px',
                                     border: `2px solid ${violation.color}30`,
-                                    background: `linear-gradient(135deg, #ffffff 0%, ${violation.color}08 100%)`,
+                                    background: '#ffffff',
                                 }}
                             >
                                 <div className="flex items-center gap-2 mb-3">
-                                    <span className="text-2xl">{violation.icon}</span>
+
                                     <span
                                         className="px-3 py-1 rounded-full text-xs font-bold"
                                         style={{

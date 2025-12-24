@@ -11,15 +11,16 @@ export default function DashboardLayout({
 }) {
     const router = useRouter();
 
-    useEffect(() => {
-        // Check if user is authenticated
-        const isAuthenticated = sessionStorage.getItem('isAuthenticated');
+    // Authentication disabled for now - will be added later
+    // useEffect(() => {
+    //     // Check if user is authenticated
+    //     const isAuthenticated = sessionStorage.getItem('isAuthenticated');
 
-        if (isAuthenticated !== 'true') {
-            // Redirect to login if not authenticated
-            router.push('/login');
-        }
-    }, [router]);
+    //     if (isAuthenticated !== 'true') {
+    //         // Redirect to login if not authenticated
+    //         router.push('/login');
+    //     }
+    // }, [router]);
 
     return (
         <div className="flex min-h-screen">

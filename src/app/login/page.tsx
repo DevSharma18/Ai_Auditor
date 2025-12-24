@@ -36,7 +36,7 @@ export default function LoginPage() {
         <div
             className="flex justify-center items-center min-h-screen w-full p-5"
             style={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: '#4f46e5',
                 boxSizing: 'border-box'
             }}
         >
@@ -244,7 +244,7 @@ export default function LoginPage() {
                             fontSize: '16px',
                             fontWeight: 600,
                             color: 'white',
-                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            background: '#4f46e5',
                             border: 'none',
                             borderRadius: '8px',
                             cursor: isLoading ? 'not-allowed' : 'pointer',
