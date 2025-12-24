@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { SearchX } from 'lucide-react';
 
 // Sample incident data
 const sampleIncidents = [
@@ -253,7 +254,9 @@ export default function IncidentsPage() {
                                 color: '#9ca3af',
                             }}
                         >
-                            <div className="text-5xl mb-3">🔍</div>
+                            <div className="flex justify-center mb-3">
+                                <SearchX size={48} className="text-gray-400" />
+                            </div>
                             <div className="text-lg font-medium text-gray-600">No incidents found</div>
                             <div className="text-sm text-gray-500 mt-2">
                                 Try adjusting your filters

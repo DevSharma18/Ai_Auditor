@@ -7,6 +7,7 @@ import {
     Cell,
     ResponsiveContainer,
 } from 'recharts';
+import { BarChart3, TrendingUp, CheckCircle2, Clock, SearchX, TrendingDown } from 'lucide-react';
 
 // Sample audit data with enhanced fields
 const sampleAudits = [
@@ -105,25 +106,25 @@ export default function AuditsPage() {
             {/* Summary Statistics Dashboard */}
             <div className="grid grid-cols-4 gap-6 mb-8">
                 <StatCard
-                    icon="📊"
+                    icon={<BarChart3 size={20} />}
                     label="Total Audits"
                     value={totalAudits.toString()}
                     color="#3b82f6"
                 />
                 <StatCard
-                    icon="📈"
+                    icon={<TrendingUp size={20} />}
                     label="Average Score"
                     value={`${avgScore}%`}
                     color="#10b981"
                 />
                 <StatCard
-                    icon="✅"
+                    icon={<CheckCircle2 size={20} />}
                     label="Pass Rate"
                     value={`${passRate}%`}
                     color="#8b5cf6"
                 />
                 <StatCard
-                    icon="⏰"
+                    icon={<Clock size={20} />}
                     label="Last Audit"
                     value="2 days ago"
                     color="#f59e0b"
@@ -146,7 +147,7 @@ export default function AuditsPage() {
                     <div className="flex-1">
                         <input
                             type="text"
-                            placeholder="🔍 Search audits by model or name..."
+                            placeholder="Search audits by model or name..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             style={{
@@ -266,7 +267,7 @@ export default function AuditsPage() {
 }
 
 // Stat Card Component
-function StatCard({ icon, label, value, color }: { icon: string; label: string; value: string; color: string }) {
+function StatCard({ icon, label, value, color }: { icon: React.ReactNode; label: string; value: string; color: string }) {
     return (
         <div
             className="transition-all duration-200"
@@ -297,6 +298,7 @@ function StatCard({ icon, label, value, color }: { icon: string; label: string; 
                         alignItems: 'center',
                         justifyContent: 'center',
                         fontSize: '20px',
+                        color: color,
                     }}
                 >
                     {icon}
@@ -387,7 +389,7 @@ function EnhancedAuditCard({ audit, isExpanded, onToggleExpand }: any) {
                                 width: '24px',
                                 height: '24px',
                                 borderRadius: '50%',
-                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                background: '#667eea',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
@@ -414,7 +416,11 @@ function EnhancedAuditCard({ audit, isExpanded, onToggleExpand }: any) {
                         <div className="flex items-center gap-1 text-sm font-medium" style={{
                             color: scoreTrend > 0 ? '#10b981' : '#ef4444'
                         }}>
-                            <span>{scoreTrend > 0 ? '↗️' : '↘️'}</span>
+                            {scoreTrend > 0 ? (
+                                <TrendingUp size={16} />
+                            ) : (
+                                <TrendingDown size={16} />
+                            )}
                             <span>{scoreTrend > 0 ? '+' : ''}{scoreTrend}%</span>
                         </div>
                     )}
@@ -674,7 +680,9 @@ function EmptyState({ searchQuery }: { searchQuery: string }) {
                 border: '1px solid #e5e7eb',
             }}
         >
-            <div className="text-6xl mb-4">🔍</div>
+            <div className="flex justify-center mb-4">
+                <SearchX size={64} className="text-gray-400" />
+            </div>
             <h3 className="text-xl font-semibold text-gray-700 mb-2">
                 {searchQuery ? 'No audits found' : 'No audits available'}
             </h3>
